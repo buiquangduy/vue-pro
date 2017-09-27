@@ -1,0 +1,47 @@
+<div v-show="categories.length" class="mb-4">
+  <h1 class="mb-4"><i class="fa fa-file-text-o"></i> Cates</h1>
+
+  <transition
+          name="category-message-animation"
+          enter-active-class="animated flipInX"
+          leave-active-class="animated flipOutX">
+    <div v-if="message">
+      <div class="alert" :class="{'alert-success': message.type === 'success'}" role="alert">
+        {{message.text}}
+      </div>
+    </div>
+  </transition>
+  <div class="form-group">
+    <input class="form-control" placeholder="Filter categories..." v-model="categoriesFilter">
+    <button class="btn btn-warning" style="margin-top: 10px;" @click="delCheckboxCategory">Delete</button>
+  </div>
+  <table cellpadding="0" cellspacing="0" width="100%" class="table" id="tSortable_2">
+    <thead>
+      <tr>
+        <th width="5%"><input type="checkbox" v-model="isCheckAll" @click="checkAll" /></th>
+        <th width="10%" class="sorting"><a href="#">#</a></th>
+        <th width="25%" class="sorting"><a href="#">Category Name</a></th>
+        <th width="10%" class="sorting"><a href="#">Type</a></th>
+        <th width="10%" class="sorting"><a href="#">Activate</a></th>
+        <th width="20%">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-if="filteredCategories.length" v-for="(category, index) in filteredCategories">
+        <td><input type="checkbox" v-model="checkCategories" :value="category.id" @click="checkCategory" /></td>
+        <td>{{ index+1 }}</td>
+        <td>{{ category.name }}</td>
+        <td>{{ categoryType[category.type] }}</td>
+        <td><span class="text-success">{{ listStatus[category.status] }}</span></td>
+        <td>
+            <router-link class="btn btn-default" :to="{ name: 'editCategory', params: { id: category.id }}">
+              Edit
+            </router-link>
+            <a class="btn btn-default" href="javascript:void(0);" @click="delCategory(category)">
+              Delete
+            </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

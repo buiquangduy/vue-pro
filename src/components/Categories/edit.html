@@ -1,0 +1,92 @@
+<transition
+  name="category-appear-animation"
+  enter-active-class="animated flipInX">
+  <div>
+    <header v-if="category.name">
+      <h1 class="card-title">{{ category.name }}</h1>
+      <hr>
+    </header>
+    <form name="editcategoryForm" class="card card-block" @submit.prevent="handleSubmit" v-if="category">
+
+      <transition
+        name="category-message-animation"
+        enter-active-class="animated flipInX"
+        leave-active-class="animated flipOutX">
+        <div v-if="message">
+          <div class="alert" :class="{'alert-success': message.type === 'success'}" role="alert">
+            {{message.text}}
+          </div>
+        </div>
+      </transition>
+
+      <transition
+        name="error-animation"
+        enter-active-class="animated flipInX"
+        leave-active-class="animated flipOutX">
+        <div v-if="errors.any()" v-for="error in errors.errors" class="alert alert-danger" role="alert">
+          <strong>Doh!</strong> {{error.msg}}
+        </div>
+      </transition>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('name') }">
+        <label for="title" class="col-2 col-form-label">Name</label>
+        <div class="col-10">
+          <input id="name"
+                 name="name"
+                 type="text"
+                 class="form-control"
+                 data-vv-rules="required"
+                 data-vv-as="Category type"
+                 v-model="category.name"
+                 v-validate>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('type') }">
+        <label for="body" class="col-2 col-form-label">Type</label>
+        <div class="col-10">
+        <select id="type"
+          name="type" 
+          class="form-control"
+          data-vv-rules="required"
+          data-vv-as="Category type"
+          v-model="category.type"
+          v-validate>
+          <option value="">choose a option...</option>
+          <option v-for="(type, key) in categoryType" :value="key">{{ type }}</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="form-group row" :class="{'has-danger': errors.has('status') }">
+        <label for="body" class="col-2 col-form-label">Status</label>
+        <div class="col-10">
+        <select id="status"
+          name="status" 
+          class="form-control"
+          data-vv-rules="required"
+          data-vv-as="Category status"ss
+          v-model="category.status"
+          v-validate>
+          <option value="">choose a option...</option>
+          <option v-for="(status, key) in listStatus" :value="key">{{ status }}</option>
+        </select>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-2"></div>
+        <div class="col-10">
+          <button type="submit" class="btn btn-primary" :disabled="errors.any() || !fields.dirty()">
+            <i class="fa fa-floppy-o"></i> Save
+          </button>
+        </div>
+      </div>
+
+    </form>
+    <hr>
+    <router-link to="/categories">
+      <i class="fa fa-chevron-left"></i> Back to categorys
+    </router-link>
+  </div>
+</transition>

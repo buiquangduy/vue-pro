@@ -1,0 +1,13 @@
+<transition
+  name="post-appear-animation"
+  enter-active-class="animated flipInX">
+  <div v-if="category.catename">
+    <div class="card card-block">
+      <h1 class="card-title">{{ category.name }}</h1>
+    </div>
+    <hr>
+    <router-link class="" to="/categories">
+      <i class="fa fa-chevron-left"></i> Back to categories
+    </router-link>
+  </div>
+</transition>
